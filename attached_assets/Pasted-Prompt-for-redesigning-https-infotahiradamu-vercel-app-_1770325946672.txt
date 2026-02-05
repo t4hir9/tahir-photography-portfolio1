@@ -1,0 +1,61 @@
+Prompt for redesigning https://infotahiradamu.vercel.app/
+Completely redesign and rebuild my personal website (current URL: https://infotahiradamu.vercel.app/) to become a sleek, visual-first portfolio focused only on showcasing my photography and videography work. Remove everything related to software development, frontend coding, Web3, projects like Jaybash Customs / Mindspace / Boride / Crypto Tracker, technical skills (JavaScript/React/Next.js/etc.), and most certifications (keep only the creative ones: Adobe Certified Expert – Premiere Pro and Drone Pilot Certification – NCAA).
+Core goals:
+
+Turn the site into a professional creative portfolio for Tahir Abdullahi Adamu (@iamt4hir9), a Nigerian-based photographer, cinematographer, video editor, and drone operator with 6+ years of experience creating cinematic visuals and storytelling for brands and digital marketing.
+Emphasize beautiful, high-impact visuals with minimal text — clean, modern, smooth, and mobile-responsive.
+Build with Next.js (latest version, App Router preferred), React components, Tailwind CSS for styling, and add subtle animations (Framer Motion) for a premium, smooth feel similar to high-end creative portfolios (inspired by clean/minimal designs like sabiverse-style aesthetics — even if the site is 404 now, aim for elegant hero, fluid transitions, and visual focus — and sabi.ng's user-friendly navigation clarity).
+Deploy-ready for Vercel.
+
+Key sections and navigation (use a clean, sticky header/nav with smooth scroll or simple links):
+
+Hero / Home
+Full-screen or large hero with a stunning looping background video or high-res hero image from my work (cinematic/drone/photography).
+Overlay text: "Tahir Abdullahi Adamu" + tagline "Cinematographer | Photographer | Drone Operator | Nigeria" + subtle "Creating visual stories that captivate brands" + CTA button "Explore My Work" scrolling to portfolios.
+
+About (sleek and concise — viewers should get the full gist in ~30 seconds)
+Clean, visually appealing section with a professional profile photo on one side (or centered).
+Short, powerful bio (3–5 sentences):
+"I'm Tahir Abdullahi Adamu, a Nigerian creative specializing in photography, cinematography, video editing, and aerial drone footage. With over 6 years of experience, I craft cinematic visuals and compelling stories for brands, events, and digital campaigns using tools like Premiere Pro, After Effects, DaVinci Resolve, and professional drone equipment. Certified Adobe Premiere Pro Expert and NCAA Drone Pilot. Passionate about turning moments into timeless visuals — let's create something unforgettable."
+Include creative certifications only (Adobe Premiere Pro + Drone).
+Add Instagram / X icons linking to @iamt4hir9.
+
+Photography (dedicated separate section — easy navigation)
+Heading: "Photography"
+Responsive masonry grid or beautiful gallery layout (recommend libraries like react-masonry-css, Masonry Grid, or native CSS masonry if supported).
+Migrate/transfer all existing photography-related images from the current site's "Media samples" section (or any assets you have — assume high-res photos are available in /public or via CMS).
+Use Next.js Image for optimization/lazy loading.
+Clickable images open in a clean lightbox (recommend lightgallery/react or similar).
+Optional categories (e.g., Portraits, Landscapes, Events, Drone) if assets support it.
+
+Videography (dedicated separate section — clear distinction from photography)
+Heading: "Videography"
+Grid or carousel of video thumbnails (transferred videos from current "Media samples" or your assets).
+Playable embeds or self-hosted videos (use <video> tags with controls or react-player for better UX).
+Include cinematic reels, brand work, drone footage, edits.
+
+Instagram Feed / Reels (integrated or separate section)
+Heading: "Latest on Instagram" or blend into Videography/Photography.
+Dynamically fetch and display my latest 9–12 Instagram posts and reels (@iamt4hir9).
+Use Instagram Graph API (preferred for business/creator accounts) or fallback to oEmbed for individual posts.
+Implement via Next.js API route: handle access token securely (env vars), fetch media (thumbnails, captions, permalink, media_type to distinguish reels vs photos).
+Show grid/carousel with thumbnails linking to original Instagram. Auto-updates when you post.
+Fallback: Use oEmbed HTML embeds if API setup is complex, or third-party like EmbedSocial if needed (but prioritize native).
+Add error handling and caching (ISR or revalidate).
+
+Contact / Let's Create
+Simple, beautiful CTA section: "Let's Work Together"
+Form for name, email, message (use Formspree, EmailJS, or Next.js API route).
+Show email (if you provide) + Instagram/X links.
+
+
+Technical & Design Details:
+
+Full responsiveness, fast loading (Next/Image, lazy loading).
+Dark mode support (or match your current dark theme).
+Smooth scroll, hover effects, entrance animations (Framer Motion).
+SEO: Proper meta tags, alt text on all images, Open Graph for social sharing.
+Accessibility: ARIA labels, keyboard nav for gallery/lightbox.
+No dev-related content remains.
+
+Output request: Provide the complete Next.js project structure (folder layout, key files like app/layout.tsx, app/page.tsx, components/, api/instagram/route.ts, etc.), sample code for Instagram fetch, masonry gallery component, lightbox integration, and full setup instructions (including env vars for Instagram API token, how to add your images/videos to /public or a folder). Make it easy to deploy on Vercel.
