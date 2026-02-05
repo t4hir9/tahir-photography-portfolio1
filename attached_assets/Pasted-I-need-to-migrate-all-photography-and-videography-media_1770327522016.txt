@@ -1,0 +1,47 @@
+I need to migrate all photography and videography media assets (images and videos) from my existing website https://infotahiradamu.vercel.app/ to a new Next.js portfolio site focused only on creative work.
+
+The current site is hosted on Vercel and was likely built from a GitHub repository. Please prioritize getting the assets from the GitHub repo if available (ask me for the repo URL if needed, or assume it's something like github.com/iamt4hir9/portfolio or similar — I can provide it). If the repo is not accessible, fall back to extracting from the live site.
+
+Tasks:
+1. **Locate and collect all relevant media files**:
+   - Find every image and video used in the "Media samples" section, hero, about, or any gallery/portfolio areas.
+   - These include photos (portraits, landscapes, events, drone shots, creative work) and videos/reels (cinematic edits, drone footage, brand work).
+   - Ignore any developer-related icons, logos, tech screenshots, or non-creative images.
+
+2. **Preferred method — from GitHub repo** (recommended for best quality and organization):
+   - In a typical Next.js project, images/videos live in:
+     - /public/ folder (e.g. /public/images/, /public/media/, /public/assets/)
+     - Or /src/assets/, /src/components/images/, etc.
+   - Copy the entire relevant media folders or individual files.
+   - Preserve original filenames, folder structure if logical (e.g. keep /photos/ and /videos/ separate).
+   - Get high-resolution originals — do not use compressed web versions.
+
+3. **Fallback method — from live website**:
+   - Inspect the deployed site[](https://infotahiradamu.vercel.app/) using browser dev tools.
+   - Find all <img> src attributes and <video> src/source attributes pointing to photography/videography content.
+   - Download the files directly from those URLs (many Vercel/Next.js sites serve /_next/static/media/ or /images/...).
+   - Also check for any background images set in CSS (background-image: url(...)).
+   - Note: These may be optimized/lower quality WebP or compressed versions — mention this limitation and suggest using repo originals instead.
+
+4. **Organize for the new site**:
+   - Create two main folders in the new Next.js project:
+     - /public/photos/ — for all photography images (jpg, png, webp)
+     - /public/videos/ — for all videography files or thumbnails (mp4, webm, or poster images)
+   - Or use /public/media/ with subfolders if preferred.
+   - Generate a simple JSON or array list of the assets (e.g. in /data/portfolio.js) with fields like:
+     {
+       type: "photo" | "video",
+       src: "/photos/image1.jpg",
+       alt: "Drone shot over Abuja landscape",
+       category: "drone" | "portrait" | etc. (if you can infer),
+       date: "2023" (if available)
+     }
+   - This list will power the Photography and Videography sections in the new site.
+
+5. **Output**:
+   - Provide instructions on how to add these files to the new Next.js project (/public folder).
+   - Give sample code snippets for importing and displaying them (using Next/Image for photos, <video> or react-player for videos).
+   - If repo access is needed, include a clear message: "Please provide the GitHub repo URL so I can clone and extract the /public or assets folder directly."
+   - List all collected file names/paths so I can verify nothing is missing.
+
+Goal: Ensure zero loss of media quality and easy navigation in the new site with separate Photography and Videography sections. Use these migrated assets to populate the galleries without manual re-uploading.
