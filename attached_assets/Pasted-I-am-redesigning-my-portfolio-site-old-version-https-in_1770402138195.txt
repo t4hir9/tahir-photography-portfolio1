@@ -1,0 +1,47 @@
+I am redesigning my portfolio site (old version: https://infotahiradamu.vercel.app/, repo: https://github.com/t4hir9/portfolio) to focus only on photography and videography. The current site has a "Media samples" section (and possibly hero/about images) containing my photos and videos that I want to transfer to the new Next.js site.
+
+The GitHub repo is public: https://github.com/t4hir9/portfolio
+
+Tasks:
+1. **Clone and inspect the repo locally** (or simulate inspection):
+   - Clone https://github.com/t4hir9/portfolio
+   - Explore the file structure, especially:
+     - /public/ folder (standard Next.js static assets location — most likely where images/videos live)
+     - Any subfolders inside /public like /images, /media, /assets, /photos, /videos, /media-samples, or similar
+     - /src/assets/ or /assets/ if present
+     - /attached_assets/ folder (exists in repo — check if it holds media)
+     - Any other folders that might contain .jpg, .jpeg, .png, .webp, .svg, .mp4, .webm, .mov files
+
+2. **Identify and collect creative media files**:
+   - Find all images and videos that appear to be photography/videography work (e.g. portraits, landscapes, drone shots, cinematic footage, brand videos/reels).
+   - Exclude: small icons, logos, tech screenshots, UI elements, favicons, or anything clearly developer-related.
+   - List full paths of relevant files, e.g.:
+     - /public/images/portrait-01.jpg
+     - /public/media/drone-video-2023.mp4
+   - If many files exist, group them:
+     - Photography: list of image paths
+     - Videography: list of video paths (or video thumbnails/posters if separate)
+
+3. **Handle cases where /public is empty or minimal**:
+   - If /public only has basics (favicon.ico, robots.txt, etc.) and no real media, the assets might be:
+     - Imported from /src/ or other folders
+     - Loaded from external URLs (e.g. Instagram CDN, Cloudinary, Imgix)
+     - Optimized and stored in /_next/static/media/ after build (but originals should be in source)
+   - In that case, suggest checking the code in /app/ or /components/ for imported images (e.g. import heroImg from '@/public/hero.jpg') or hard-coded src="/image.jpg"
+   - Also inspect the live site source[](https://infotahiradamu.vercel.app/) in browser dev tools → Network tab → filter by Img/Media to see actual asset URLs, then map back to repo paths.
+
+4. **Prepare assets for new site**:
+   - Recommend copying the relevant media files into the new Next.js project:
+     - /public/photos/ — for all photography images
+     - /public/videos/ — for videography videos (or /public/videos/thumbnails/ for posters)
+   - Create a data file (e.g. /data/portfolio.ts or .js) exporting an array of items like:
+     ```ts
+     export const photography = [
+       { src: '/photos/image1.jpg', alt: 'Portrait in golden hour', category: 'portrait' },
+       // ...
+     ];
+
+     export const videography = [
+       { src: '/videos/reel-01.mp4', poster: '/videos/reel-01-poster.jpg', title: 'Drone Cinematic 2023' },
+       // ...
+     ];
