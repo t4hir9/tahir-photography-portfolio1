@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Sitemap: https://tahiradamu.info/sitemap.xml
+
+# Google-specific directives
+User-agent: Googlebot
+Allow: /
+
+# Bing-specific directives
+User-agent: Bingbot
+Allow: /

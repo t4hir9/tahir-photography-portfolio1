@@ -1,0 +1,53 @@
+{
+  "name": "Abdullahi Tahir Adamu - Portfolio",
+  "short_name": "Tahir Adamu",
+  "description": "Front-End Developer and Media Expert with 6+ years experience specializing in React, Next.js, and Web3",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/whitelogo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/whitelogo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/whitelogo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "View Projects",
+      "short_name": "Projects",
+      "description": "View all projects and portfolio work",
+      "url": "/projects",
+      "icons": [
+        {
+          "src": "/whitelogo.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
