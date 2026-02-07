@@ -94,12 +94,16 @@ export default function Portfolio() {
               >
                 {item.type === 'video' ? (
                   <div className="relative aspect-video">
-                    <img 
-                      src={item.thumbnailUrl || item.url} 
-                      alt={item.title}
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                    >
+                      <source src={item.url} type="video/mp4" />
+                    </video>
+                    <div className="absolute inset-0 bg-black/10 flex items-center justify-center group-hover:bg-black/30 transition-colors">
                       <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform">
                         <Play className="w-5 h-5 text-white ml-1" />
                       </div>
@@ -109,15 +113,13 @@ export default function Portfolio() {
                   <div className="relative">
                     <img 
                       src={item.url} 
-                      alt={item.title}
+                      alt=""
                       className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
                 )}
                 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
-                  <p className="text-white/60 text-xs uppercase tracking-wider mb-1">{item.category}</p>
-                  <h3 className="text-white text-xl font-display">{item.title}</h3>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
                 </div>
               </motion.div>
             ))}

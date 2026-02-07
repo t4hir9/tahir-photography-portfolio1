@@ -17,7 +17,6 @@ export default function Home() {
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-black/50 z-10" />
-          {/* Using a sleek, looping cinematic placeholder video */}
           <video
             autoPlay
             loop
@@ -26,7 +25,7 @@ export default function Home() {
             className="w-full h-full object-cover opacity-60"
           >
             <source
-              src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4"
+              src="/videos/Outfit_3_Redo.mp4"
               type="video/mp4"
             />
           </video>
@@ -83,9 +82,8 @@ export default function Home() {
                 transition={{ duration: 0.4 }}
               >
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10" />
-                {/* Placeholder: Cinematic Portrait */}
                 <img 
-                  src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1964&auto=format&fit=crop" 
+                  src="/photos/1.jpg" 
                   alt="Photography" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
@@ -110,12 +108,15 @@ export default function Home() {
                 transition={{ duration: 0.4 }}
               >
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10" />
-                {/* Placeholder: Cinematic Film Set */}
-                <img 
-                  src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071&auto=format&fit=crop" 
-                  alt="Videography" 
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+                >
+                  <source src="/videos/Outfit_4.mp4" type="video/mp4" />
+                </video>
                 <div className="absolute bottom-0 left-0 p-10 z-20">
                   <div className="flex items-center gap-4 mb-4 text-white/60">
                     <Video className="w-5 h-5" />
