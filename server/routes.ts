@@ -71,38 +71,37 @@ export async function registerRoutes(
     res.json(mockPosts);
   });
 
-  // Seed data if empty
+  // Seed data
   const existingItems = await storage.getPortfolioItems();
   if (existingItems.length === 0) {
-    // Seed some photography
-    await storage.createPortfolioItem({
-      title: "Mountain Landscape",
-      type: "photo",
-      url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80",
-      category: "Landscape",
-      thumbnailUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80"
-    });
-    await storage.createPortfolioItem({
-      title: "Urban Portrait",
-      type: "photo",
-      url: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80",
-      category: "Portrait",
-      thumbnailUrl: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80"
-    });
-    await storage.createPortfolioItem({
-      title: "Drone View",
-      type: "photo",
-      url: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&q=80",
-      category: "Drone",
-      thumbnailUrl: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&q=80"
-    });
-    await storage.createPortfolioItem({
-      title: "Cinematic Reel",
-      type: "video",
-      url: "https://www.youtube.com/embed/dQw4w9WgXcQ", // Placeholder
-      category: "Reel",
-      thumbnailUrl: "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&q=80"
-    });
+    // Photography
+    const photoCount = 65; // Based on the find command output
+    for (let i = 1; i <= photoCount; i++) {
+      await storage.createPortfolioItem({
+        title: `Photo ${i}`,
+        type: "photo",
+        url: `/photos/${i}.jpg`,
+        category: "Photography",
+        thumbnailUrl: `/photos/${i}.jpg`
+      });
+    }
+
+    // Videography
+    const videos = [
+      { title: "Outfit 3 Redo", url: "/videos/Outfit_3_Redo.mp4" },
+      { title: "Outfit 4", url: "/videos/Outfit_4.mp4" },
+      { title: "Walima Second", url: "/videos/Walima_Second.mp4" }
+    ];
+
+    for (const video of videos) {
+      await storage.createPortfolioItem({
+        title: video.title,
+        type: "video",
+        url: video.url,
+        category: "Videography",
+        thumbnailUrl: "/photos/1.jpg" // Fallback thumbnail
+      });
+    }
   }
 
   return httpServer;
