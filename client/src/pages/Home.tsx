@@ -25,7 +25,7 @@ export default function Home() {
             className="w-full h-full object-cover opacity-60"
           >
             <source
-              src="/videos/Outfit_3_Redo.mp4"
+              src="/videos/Reel.MP4"
               type="video/mp4"
             />
           </video>

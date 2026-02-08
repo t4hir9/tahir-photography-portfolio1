@@ -90,7 +90,13 @@ export async function registerRoutes(
     const videos = [
       { title: "Outfit 3 Redo", url: "/videos/Outfit_3_Redo.mp4" },
       { title: "Outfit 4", url: "/videos/Outfit_4.mp4" },
-      { title: "Walima Second", url: "/videos/Walima_Second.mp4" }
+      { title: "Walima Second", url: "/videos/Walima_Second.mp4" },
+      { title: "Culverin", url: "/videos/culverin.MP4" },
+      { title: "FTS", url: "/videos/FTS.MP4" },
+      { title: "Reel", url: "/videos/Reel.MP4" },
+      { title: "Rubix", url: "/videos/Rubix.MP4" },
+      { title: "Scribble", url: "/videos/Scribble.MP4" },
+      { title: "Titan", url: "/videos/titan.MP4" }
     ];
 
     for (const video of videos) {

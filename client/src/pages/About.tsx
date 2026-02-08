@@ -18,9 +18,8 @@ export default function About() {
             className="relative"
           >
             <div className="aspect-[3/4] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
-              {/* Placeholder: Professional Photographer Portrait */}
               <img 
-                src="https://images.unsplash.com/photo-1554048612-387768052bf7?w=800&q=80" 
+                src="/about-profile.jpg" 
                 alt="Tahir Abdullahi Adamu"
                 className="w-full h-full object-cover"
               />
