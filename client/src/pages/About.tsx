@@ -5,10 +5,24 @@ import { Camera, Film, Award, MapPin } from "lucide-react";
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
       <Navigation />
 
-      <section className="pt-32 pb-20 container mx-auto px-6">
+      {/* Background Video */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover blur-md opacity-30"
+        >
+          <source src="/about-bg.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-background/60" />
+      </div>
+
+      <section className="relative z-10 pt-32 pb-20 container mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           {/* Profile Image */}
           <motion.div
