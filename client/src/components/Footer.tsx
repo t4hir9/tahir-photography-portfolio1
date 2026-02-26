@@ -16,7 +16,7 @@ export function Footer() {
 
           <div className="flex gap-6">
             <a 
-              href="https://instagram.com" 
+              href="https://instagram.com/iamt4hir9" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-full"
@@ -24,7 +24,7 @@ export function Footer() {
               <Instagram className="w-5 h-5" />
             </a>
             <a 
-              href="https://twitter.com" 
+              href="https://twitter.com/iamt4hir9" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-full"
@@ -32,7 +32,7 @@ export function Footer() {
               <Twitter className="w-5 h-5" />
             </a>
             <a 
-              href="mailto:contact@example.com"
+              href="mailto:abdultahir779@gmail.com"
               className="text-white/60 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-full"
             >
               <Mail className="w-5 h-5" />

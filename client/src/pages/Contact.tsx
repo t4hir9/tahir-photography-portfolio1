@@ -71,8 +71,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-white/40 text-xs uppercase tracking-widest mb-1">Email</p>
-                  <a href="mailto:hello@tahiradamu.com" className="text-white text-lg hover:text-white/70 transition-colors">
-                    hello@tahiradamu.com
+                  <a href="mailto:abdultahir779@gmail.com" className="text-white text-lg hover:text-white/70 transition-colors">
+                    abdultahir779@gmail.com
                   </a>
                 </div>
               </div>
@@ -83,8 +83,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-white/40 text-xs uppercase tracking-widest mb-1">Phone</p>
-                  <a href="tel:+2348000000000" className="text-white text-lg hover:text-white/70 transition-colors">
-                    +234 800 000 0000
+                  <a href="tel:+2348148630882" className="text-white text-lg hover:text-white/70 transition-colors">
+                    +234 814 863 0882
                   </a>
                 </div>
               </div>
@@ -103,8 +103,8 @@ export default function Contact() {
             <div className="mt-16 pt-8 border-t border-white/10">
               <p className="text-white/40 mb-4 text-sm">Follow my journey</p>
               <div className="flex gap-4">
-                <a href="#" className="text-white hover:text-white/60 transition-colors"><Instagram /></a>
-                <a href="#" className="text-white hover:text-white/60 transition-colors"><Twitter /></a>
+                <a href="https://instagram.com/iamt4hir9" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/60 transition-colors"><Instagram /></a>
+                <a href="https://twitter.com/iamt4hir9" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/60 transition-colors"><Twitter /></a>
               </div>
             </div>
           </motion.div>
