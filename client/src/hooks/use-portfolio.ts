@@ -17,23 +17,6 @@ export function usePortfolio() {
 }
 
 // ============================================
-// INSTAGRAM HOOKS
-// ============================================
-
-export function useInstagramFeed() {
-  return useQuery({
-    queryKey: [api.instagram.list.path],
-    queryFn: async () => {
-      const res = await fetch(api.instagram.list.path);
-      if (!res.ok) throw new Error("Failed to fetch instagram feed");
-      return api.instagram.list.responses[200].parse(await res.json());
-    },
-    // Don't refetch often as rate limits apply
-    staleTime: 1000 * 60 * 60, // 1 hour
-  });
-}
-
-// ============================================
 // CONTACT HOOKS
 // ============================================
 

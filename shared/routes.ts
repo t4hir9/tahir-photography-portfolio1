@@ -35,22 +35,6 @@ export const api = {
       },
     },
   },
-  instagram: {
-    list: {
-      method: 'GET' as const,
-      path: '/api/instagram',
-      responses: {
-        200: z.array(z.object({
-          id: z.string(),
-          media_url: z.string(),
-          permalink: z.string(),
-          caption: z.string().optional(),
-          media_type: z.string(),
-          thumbnail_url: z.string().optional(),
-        })),
-      },
-    },
-  },
 };
 
 export function buildUrl(path: string, params?: Record<string, string | number>): string {

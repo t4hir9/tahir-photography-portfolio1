@@ -1,13 +1,10 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Camera, Video, Instagram } from "lucide-react";
+import { ArrowRight, Camera, Video } from "lucide-react";
 import { Link } from "wouter";
-import { useInstagramFeed } from "@/hooks/use-portfolio";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
-  const { data: instagramPosts } = useInstagramFeed();
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
@@ -130,64 +127,6 @@ export default function Home() {
                 </div>
               </motion.div>
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Selected Works - Latest from Instagram */}
-      <section className="py-24 bg-secondary/20">
-        <div className="container mx-auto px-6">
-          <div className="flex justify-between items-end mb-16">
-            <div>
-              <h3 className="text-sm font-light tracking-[0.2em] uppercase text-white/50 mb-2">Social Feed</h3>
-              <h2 className="text-3xl font-display text-white">Latest on Instagram</h2>
-            </div>
-            <a 
-              href="https://instagram.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"
-            >
-              <Instagram className="w-4 h-4" />
-              <span className="text-sm uppercase tracking-wider">Follow Me</span>
-            </a>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {/* Fallback to placeholders if API returns empty */}
-            {(!instagramPosts || instagramPosts.length === 0) ? (
-              Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="aspect-square bg-white/5 relative group overflow-hidden">
-                  <img 
-                    src={`https://images.unsplash.com/photo-${1500000000000 + i}?w=500&h=500&fit=crop`} 
-                    alt="Instagram Post"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-60 group-hover:opacity-100"
-                  />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <Instagram className="text-white w-6 h-6" />
-                  </div>
-                </div>
-              ))
-            ) : (
-              instagramPosts.slice(0, 4).map((post) => (
-                <a 
-                  key={post.id} 
-                  href={post.permalink} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="aspect-square bg-white/5 relative group overflow-hidden"
-                >
-                  <img 
-                    src={post.thumbnail_url || post.media_url} 
-                    alt={post.caption || "Instagram Post"}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <Instagram className="text-white w-6 h-6" />
-                  </div>
-                </a>
-              ))
-            )}
           </div>
         </div>
       </section>

@@ -31,46 +31,6 @@ export async function registerRoutes(
     res.json(items);
   });
 
-  // Instagram (Mock/Placeholder for now as we don't have a token)
-  app.get(api.instagram.list.path, async (req, res) => {
-    // In a real app, we would fetch from Instagram Graph API here using an access token
-    // const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
-    // ... fetch logic ...
-    
-    // Returning mock data for the portfolio demo
-    const mockPosts = [
-      {
-        id: "1",
-        media_url: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80",
-        permalink: "https://instagram.com",
-        caption: "Capturing moments #photography",
-        media_type: "IMAGE",
-      },
-      {
-        id: "2",
-        media_url: "https://images.unsplash.com/photo-1517059224975-d10f9689363b?auto=format&fit=crop&q=80",
-        permalink: "https://instagram.com",
-        caption: "Cinematic vibes #video",
-        media_type: "IMAGE",
-      },
-      {
-        id: "3",
-        media_url: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&q=80",
-        permalink: "https://instagram.com",
-        caption: "Drone shots from above #aerial",
-        media_type: "IMAGE",
-      },
-       {
-        id: "4",
-        media_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80",
-        permalink: "https://instagram.com",
-        caption: "Visual storytelling #create",
-        media_type: "IMAGE",
-      },
-    ];
-    res.json(mockPosts);
-  });
-
   // Seed data
   const existingItems = await storage.getPortfolioItems();
   
