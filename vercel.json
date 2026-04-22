@@ -1,15 +1,8 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
-  "installCommand": "npm install",
-  "functions": {
-    "dist/index.cjs": {
-      "includeFiles": "dist/**",
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  },
+  "outputDirectory": "dist/public",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/dist/index.cjs" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
