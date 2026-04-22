@@ -20,21 +20,7 @@ export default function Portfolio() {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const { data: items, isLoading } = usePortfolio();
 
-  // Placeholder data for when API is empty during development
-  const placeholderItems = [
-    { id: 1, type: 'photo', url: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80', title: 'Editorial Portrait', category: 'Portrait' },
-    { id: 2, type: 'photo', url: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&q=80', title: 'Mountain Landscapes', category: 'Landscape' },
-    { id: 3, type: 'video', url: 'https://www.youtube.com/watch?v=LXb3EKWsInQ', thumbnailUrl: 'https://images.unsplash.com/photo-1478720568477-152d9b164e63?w=800&q=80', title: 'Cinematic Reel 2024', category: 'Commercial' },
-    { id: 4, type: 'photo', url: 'https://images.unsplash.com/photo-1551316679-1c6a7b7e05e2?w=800&q=80', title: 'Urban Stories', category: 'Street' },
-    { id: 5, type: 'photo', url: 'https://images.unsplash.com/photo-1524253482453-3fed8d2fe12b?w=800&q=80', title: 'Fashion Week', category: 'Fashion' },
-    { id: 6, type: 'video', url: 'https://www.youtube.com/watch?v=ysz5S6P_24M', thumbnailUrl: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800&q=80', title: 'Brand Campaign', category: 'Commercial' },
-    { id: 7, type: 'photo', url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80', title: 'Studio Session', category: 'Portrait' },
-    { id: 8, type: 'photo', url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80', title: 'Nature\'s Fury', category: 'Landscape' },
-  ];
-
-  const displayItems = items?.length ? items : placeholderItems;
-  
-  const filteredItems = displayItems.filter(item => 
+  const filteredItems = (items ?? []).filter(item =>
     activeTab === 'all' ? true : item.type === activeTab
   );
 
