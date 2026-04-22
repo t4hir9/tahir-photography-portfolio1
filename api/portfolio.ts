@@ -1,6 +1,4 @@
 import { Pool } from 'pg';
-import fs from 'fs';
-import path from 'path';
 
 function titleFromFilename(filename: string): string {
   return filename
@@ -21,21 +19,11 @@ export default async function handler(req: any, res: any) {
     const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) as count FROM portfolio_items');
 
     if (parseInt(count) === 0) {
-      const photoExtensions = /\.(jpg|jpeg|JPG|JPEG|png|PNG|webp|WEBP)$/;
-      const videoExtensions = /\.(mp4|MP4|mov|MOV|avi|AVI|webm|WEBM)$/;
+      // Import the pre-generated manifest (built by script/build.ts — no filesystem scanning at runtime)
+      const mediaList: { photos: string[]; videos: string[] } = require('./media-list.json');
+      const { photos: photoFiles, videos: videoFiles } = mediaList;
 
-      const photosDir = path.join(process.cwd(), 'client/public/photos');
-      const videosDir = path.join(process.cwd(), 'client/public/videos');
-
-      const photoFiles = fs.existsSync(photosDir)
-        ? fs.readdirSync(photosDir).filter((f) => photoExtensions.test(f))
-        : [];
-
-      const videoFiles = fs.existsSync(videosDir)
-        ? fs.readdirSync(videosDir).filter((f) => videoExtensions.test(f))
-        : [];
-
-      const firstPhoto = photoFiles[0] ? `/photos/${photoFiles[0]}` : null;
+      const firstPhoto = photoFiles[0] ? `/photos/${photoFiles[0]}` : '/photos/1.jpg';
 
       for (const filename of photoFiles) {
         const url = `/photos/${filename}`;
@@ -49,7 +37,7 @@ export default async function handler(req: any, res: any) {
         const url = `/videos/${filename}`;
         await pool.query(
           'INSERT INTO portfolio_items (title, type, url, thumbnail_url, category) VALUES ($1, $2, $3, $4, $5)',
-          [titleFromFilename(filename), 'video', url, firstPhoto ?? '/photos/1.jpg', 'Videography']
+          [titleFromFilename(filename), 'video', url, firstPhoto, 'Videography']
         );
       }
     }

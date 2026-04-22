@@ -1,6 +1,6 @@
 import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
-import { rm, readFile } from "fs/promises";
+import { rm, readFile, readdir, writeFile } from "fs/promises";
 
 // server deps to bundle to reduce openat(2) syscalls
 // which helps cold start times
@@ -32,8 +32,28 @@ const allowlist = [
   "zod-validation-error",
 ];
 
+const photoExtensions = /\.(jpg|jpeg|JPG|JPEG|png|PNG|webp|WEBP)$/;
+const videoExtensions = /\.(mp4|MP4|mov|MOV|avi|AVI|webm|WEBM)$/;
+
+async function generateMediaManifest() {
+  const photos = (await readdir("client/public/photos")).filter((f) =>
+    photoExtensions.test(f)
+  );
+  const videos = (await readdir("client/public/videos")).filter((f) =>
+    videoExtensions.test(f)
+  );
+  const manifest = { photos, videos };
+  await writeFile("api/media-list.json", JSON.stringify(manifest, null, 2));
+  console.log(
+    `Generated media manifest: ${photos.length} photos, ${videos.length} videos`
+  );
+}
+
 async function buildAll() {
   await rm("dist", { recursive: true, force: true });
+
+  console.log("generating media manifest...");
+  await generateMediaManifest();
 
   console.log("building client...");
   await viteBuild();

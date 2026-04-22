@@ -2,7 +2,15 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist/public",
+  "functions": {
+    "api/portfolio.ts": {
+      "excludeFiles": "client/public/**"
+    },
+    "api/contact.ts": {
+      "excludeFiles": "client/public/**"
+    }
+  },
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
