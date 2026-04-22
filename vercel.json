@@ -4,10 +4,10 @@
   "outputDirectory": "dist/public",
   "functions": {
     "api/portfolio.ts": {
-      "excludeFiles": "client/public/**"
+      "excludeFiles": "{client/public/**,dist/**}"
     },
     "api/contact.ts": {
-      "excludeFiles": "client/public/**"
+      "excludeFiles": "{client/public/**,dist/**}"
     }
   },
   "rewrites": [
