@@ -1,5 +1,8 @@
 import { Pool } from 'pg';
 
+// Imported at module level so Vercel always bundles media-list.json
+const mediaList: { photos: string[]; videos: string[] } = require('./media-list.json');
+
 function titleFromFilename(filename: string): string {
   return filename
     .replace(/\.[^.]+$/, '')
@@ -19,10 +22,7 @@ export default async function handler(req: any, res: any) {
     const { rows: [{ count }] } = await pool.query('SELECT COUNT(*) as count FROM portfolio_items');
 
     if (parseInt(count) === 0) {
-      // Import the pre-generated manifest (built by script/build.ts — no filesystem scanning at runtime)
-      const mediaList: { photos: string[]; videos: string[] } = require('./media-list.json');
       const { photos: photoFiles, videos: videoFiles } = mediaList;
-
       const firstPhoto = photoFiles[0] ? `/photos/${photoFiles[0]}` : '/photos/1.jpg';
 
       for (const filename of photoFiles) {
