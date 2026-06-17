@@ -2,10 +2,33 @@ import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Camera, Film, Award, MapPin } from "lucide-react";
+import { SEO } from "@/components/SEO";
+
+const aboutStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  mainEntity: {
+    "@type": "Person",
+    name: "Tahir Abdullahi Adamu",
+    url: "https://tahiradamu.vercel.app/about",
+    jobTitle: "Photographer & Cinematographer",
+    description:
+      "Visual storyteller with 5+ years of professional experience in portrait, editorial, commercial photography and documentary cinematography. Based in Abuja, Nigeria.",
+    address: { "@type": "PostalAddress", addressLocality: "Abuja", addressCountry: "NG" },
+    knowsAbout: ["Photography", "Cinematography", "Portrait", "Editorial", "Commercial Video", "Documentary"],
+  },
+};
 
 export default function About() {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
+      <SEO
+        title="About Tahir Adamu — Photographer & Cinematographer"
+        description="Learn about Tahir Abdullahi Adamu — a visual storyteller with 5+ years of experience in portrait, editorial, and commercial photography and cinematography, based in Abuja, Nigeria."
+        path="/about"
+        type="profile"
+        structuredData={aboutStructuredData}
+      />
       <Navigation />
 
       {/* Background Video */}

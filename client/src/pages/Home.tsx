@@ -3,6 +3,7 @@ import { ArrowRight, Camera, Video } from "lucide-react";
 import { Link } from "wouter";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 
 const GITHUB_BASE =
   "https://raw.githubusercontent.com/t4hir9/tahir-photography-portfolio1/main/client/public";
@@ -12,9 +13,36 @@ function mediaUrl(type: "photos" | "videos", filename: string): string {
   return `${GITHUB_BASE}/${type}/${filename}`;
 }
 
+const homeStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Tahir Abdullahi Adamu",
+  url: "https://tahiradamu.vercel.app",
+  image: "https://raw.githubusercontent.com/t4hir9/tahir-photography-portfolio1/main/client/public/photos/1.jpg",
+  sameAs: [
+    "https://instagram.com/iamt4hir9",
+    "https://twitter.com/iamt4hir9",
+    "https://tiktok.com/@iamt4hir9",
+  ],
+  jobTitle: "Photographer & Cinematographer",
+  worksFor: { "@type": "Organization", name: "Freelance" },
+  address: { "@type": "PostalAddress", addressLocality: "Abuja", addressCountry: "NG" },
+  email: "abdultahir779@gmail.com",
+  telephone: "+2348148630882",
+  description:
+    "Visual storyteller based in Abuja, Nigeria. Specialising in portrait, editorial, commercial photography and documentary cinematography.",
+};
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO
+        title="Tahir Abdullahi Adamu — Photographer & Cinematographer | Abuja, Nigeria"
+        description="Visual storyteller capturing raw, cinematic moments through photography and film. Based in Abuja, Nigeria. Available for portrait, editorial, commercial and documentary work worldwide."
+        path="/"
+        type="profile"
+        structuredData={homeStructuredData}
+      />
       <Navigation />
 
       {/* Hero Section */}

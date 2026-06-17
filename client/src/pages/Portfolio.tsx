@@ -6,6 +6,7 @@ import ReactPlayer from "react-player";
 import { usePortfolio } from "@/hooks/use-portfolio";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Play, Loader2, X } from "lucide-react";
 
 export default function Portfolio() {
@@ -32,6 +33,11 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Portfolio — Photography & Videography"
+        description="Browse Tahir Abdullahi Adamu's full portfolio of 75+ photos and 16+ videos. Portrait, editorial, lifestyle photography and commercial videography from Abuja, Nigeria."
+        path="/portfolio"
+      />
       <Navigation />
       
       <div className="pt-32 pb-12 container mx-auto px-6">

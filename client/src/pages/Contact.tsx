@@ -4,6 +4,7 @@ import { insertMessageSchema } from "@shared/schema";
 import { useContactForm } from "@/hooks/use-portfolio";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -46,6 +47,11 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Contact Tahir Adamu — Book a Session"
+        description="Get in touch with Tahir Abdullahi Adamu for photography and videography bookings. Available for portrait, commercial, editorial and documentary projects worldwide. Based in Abuja, Nigeria."
+        path="/contact"
+      />
       <Navigation />
 
       <div className="pt-32 pb-20 container mx-auto px-6">
