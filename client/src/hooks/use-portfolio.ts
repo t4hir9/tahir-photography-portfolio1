@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, type InsertMessage } from "@shared/routes";
+import { PHOTO_FILENAMES, VIDEO_FILENAMES } from "@/lib/media-list";
 
 const GITHUB_BASE =
   "https://raw.githubusercontent.com/t4hir9/tahir-photography-portfolio1/main/client/public";
@@ -42,10 +43,19 @@ export function usePortfolio() {
       }
 
       // Fall back to static manifest (works even with no database)
-      const manifestRes = await fetch("/media-manifest.json");
-      if (!manifestRes.ok) throw new Error("Failed to load media");
-      const { photos, videos }: { photos: string[]; videos: string[] } =
-        await manifestRes.json();
+      let photos: string[] = PHOTO_FILENAMES;
+      let videos: string[] = VIDEO_FILENAMES;
+      try {
+        const manifestRes = await fetch("/media-manifest.json");
+        if (manifestRes.ok) {
+          const manifest: { photos: string[]; videos: string[] } =
+            await manifestRes.json();
+          if (manifest.photos?.length > 0) photos = manifest.photos;
+          if (manifest.videos?.length > 0) videos = manifest.videos;
+        }
+      } catch {
+        // manifest unavailable — use hardcoded list above
+      }
 
       const firstPhoto = photos[0] ? mediaUrl("photos", photos[0]) : "";
 
