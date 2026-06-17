@@ -36,12 +36,36 @@ const photoExtensions = /\.(jpg|jpeg|JPG|JPEG|png|PNG|webp|WEBP)$/;
 const videoExtensions = /\.(mp4|MP4|mov|MOV|avi|AVI|webm|WEBM)$/;
 
 async function generateMediaManifests() {
-  const photos = (await readdir("client/public/photos")).filter((f) =>
-    photoExtensions.test(f)
-  );
-  const videos = (await readdir("client/public/videos")).filter((f) =>
-    videoExtensions.test(f)
-  );
+  let photos: string[] = [];
+  let videos: string[] = [];
+
+  try {
+    photos = (await readdir("client/public/photos")).filter((f) =>
+      photoExtensions.test(f)
+    );
+    videos = (await readdir("client/public/videos")).filter((f) =>
+      videoExtensions.test(f)
+    );
+    console.log(
+      `Scanned media dirs: ${photos.length} photos, ${videos.length} videos`
+    );
+  } catch {
+    // Media directories excluded from build env (e.g. Vercel via .vercelignore)
+    // Fall back to the pre-committed manifest so it is not wiped to empty
+    try {
+      const existing = JSON.parse(
+        await readFile("client/public/media-manifest.json", "utf-8")
+      );
+      photos = existing.photos || [];
+      videos = existing.videos || [];
+      console.log(
+        `No media dirs found — keeping committed manifest: ${photos.length} photos, ${videos.length} videos`
+      );
+    } catch {
+      console.warn("No media dirs and no existing manifest — manifest will be empty");
+    }
+  }
+
   const manifest = { photos, videos };
 
   // Static manifest served as a public asset by Vercel CDN (no database needed)
@@ -54,7 +78,7 @@ async function generateMediaManifests() {
   await writeFile("api/media-list.json", JSON.stringify(manifest, null, 2));
 
   console.log(
-    `Generated manifests: ${photos.length} photos, ${videos.length} videos`
+    `Final manifests written: ${photos.length} photos, ${videos.length} videos`
   );
 }
 
