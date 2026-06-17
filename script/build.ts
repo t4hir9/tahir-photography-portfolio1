@@ -35,7 +35,7 @@ const allowlist = [
 const photoExtensions = /\.(jpg|jpeg|JPG|JPEG|png|PNG|webp|WEBP)$/;
 const videoExtensions = /\.(mp4|MP4|mov|MOV|avi|AVI|webm|WEBM)$/;
 
-async function generateMediaManifest() {
+async function generateMediaManifests() {
   const photos = (await readdir("client/public/photos")).filter((f) =>
     photoExtensions.test(f)
   );
@@ -43,17 +43,26 @@ async function generateMediaManifest() {
     videoExtensions.test(f)
   );
   const manifest = { photos, videos };
+
+  // Static manifest served as a public asset by Vercel CDN (no database needed)
+  await writeFile(
+    "client/public/media-manifest.json",
+    JSON.stringify(manifest, null, 2)
+  );
+
+  // Manifest for the Vercel serverless function (legacy support)
   await writeFile("api/media-list.json", JSON.stringify(manifest, null, 2));
+
   console.log(
-    `Generated media manifest: ${photos.length} photos, ${videos.length} videos`
+    `Generated manifests: ${photos.length} photos, ${videos.length} videos`
   );
 }
 
 async function buildAll() {
   await rm("dist", { recursive: true, force: true });
 
-  console.log("generating media manifest...");
-  await generateMediaManifest();
+  console.log("generating media manifests...");
+  await generateMediaManifests();
 
   console.log("building client...");
   await viteBuild();
