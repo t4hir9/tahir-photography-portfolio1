@@ -12,10 +12,11 @@ import { eq } from "drizzle-orm";
 export interface IStorage {
   // Messages
   createMessage(message: InsertMessage): Promise<Message>;
-  
+
   // Portfolio
   getPortfolioItems(): Promise<PortfolioItem[]>;
   createPortfolioItem(item: InsertPortfolioItem): Promise<PortfolioItem>;
+  deletePortfolioItem(id: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -25,12 +26,16 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getPortfolioItems(): Promise<PortfolioItem[]> {
-    return await db.select().from(portfolioItems);
+    return await db.select().from(portfolioItems).orderBy(portfolioItems.id);
   }
 
   async createPortfolioItem(item: InsertPortfolioItem): Promise<PortfolioItem> {
     const [newItem] = await db.insert(portfolioItems).values(item).returning();
     return newItem;
+  }
+
+  async deletePortfolioItem(id: number): Promise<void> {
+    await db.delete(portfolioItems).where(eq(portfolioItems.id, id));
   }
 }
 

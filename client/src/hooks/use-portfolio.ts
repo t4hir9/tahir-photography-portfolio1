@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, type InsertMessage } from "@shared/routes";
 
 const GITHUB_BASE =
@@ -23,12 +23,29 @@ function titleFromFilename(filename: string): string {
 
 export function usePortfolio() {
   return useQuery({
-    queryKey: ["media-manifest"],
+    queryKey: ["portfolio"],
     queryFn: async () => {
-      const res = await fetch("/media-manifest.json");
-      if (!res.ok) throw new Error("Failed to fetch media");
+      // Try the database API first
+      try {
+        const res = await fetch(api.portfolio.list.path);
+        if (res.ok) {
+          const dbItems = await res.json();
+          if (dbItems.length > 0) {
+            return dbItems.map((item: any) => ({
+              ...item,
+              thumbnailUrl: item.thumbnailUrl ?? item.thumbnail_url ?? item.url,
+            }));
+          }
+        }
+      } catch {
+        // API unavailable — fall through to manifest
+      }
+
+      // Fall back to static manifest (works even with no database)
+      const manifestRes = await fetch("/media-manifest.json");
+      if (!manifestRes.ok) throw new Error("Failed to load media");
       const { photos, videos }: { photos: string[]; videos: string[] } =
-        await res.json();
+        await manifestRes.json();
 
       const firstPhoto = photos[0] ? mediaUrl("photos", photos[0]) : "";
 
@@ -50,6 +67,52 @@ export function usePortfolio() {
           category: "Videography",
         })),
       ];
+    },
+  });
+}
+
+// ============================================
+// ADMIN HOOKS
+// ============================================
+
+export function useAdminPortfolio(password: string) {
+  return useQuery({
+    queryKey: ["admin-portfolio"],
+    enabled: !!password,
+    queryFn: async () => {
+      const res = await fetch(api.portfolio.list.path, {
+        headers: { "X-Admin-Password": password },
+      });
+      if (!res.ok) throw new Error("Failed to fetch");
+      return res.json() as Promise<any[]>;
+    },
+  });
+}
+
+export function useDeletePortfolioItem(password: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: number) => {
+      // Express uses DELETE /api/portfolio/:id; Vercel uses ?id=
+      const res = await fetch(`${api.portfolio.list.path}/${id}`, {
+        method: "DELETE",
+        headers: { "X-Admin-Password": password },
+      });
+      // Vercel fallback: path params not supported, use query param
+      if (res.status === 404 || res.status === 405) {
+        const res2 = await fetch(`${api.portfolio.list.path}?id=${id}`, {
+          method: "DELETE",
+          headers: { "X-Admin-Password": password },
+        });
+        if (!res2.ok && res2.status !== 204)
+          throw new Error("Failed to delete");
+        return;
+      }
+      if (!res.ok && res.status !== 204) throw new Error("Failed to delete");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-portfolio"] });
+      queryClient.invalidateQueries({ queryKey: ["portfolio"] });
     },
   });
 }

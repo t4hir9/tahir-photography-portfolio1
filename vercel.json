@@ -8,6 +8,9 @@
     },
     "api/contact.ts": {
       "excludeFiles": "{client/public/**,dist/**}"
+    },
+    "api/cloudinary-signature.ts": {
+      "excludeFiles": "{client/public/**,dist/**}"
     }
   },
   "rewrites": [
