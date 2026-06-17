@@ -21,7 +21,7 @@ const homeStructuredData = {
   image: "https://raw.githubusercontent.com/t4hir9/tahir-photography-portfolio1/main/client/public/photos/1.jpg",
   sameAs: [
     "https://instagram.com/iamt4hir9",
-    "https://twitter.com/iamt4hir9",
+    "https://linkedin.com/in/iamt4hir9",
     "https://tiktok.com/@iamt4hir9",
   ],
   jobTitle: "Photographer & Cinematographer",

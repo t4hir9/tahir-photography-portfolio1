@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, Instagram, Twitter } from "lucide-react";
+import { Mail, MapPin, Phone, Instagram, Linkedin } from "lucide-react";
 
 export default function Contact() {
   const { toast } = useToast();
@@ -110,7 +110,7 @@ export default function Contact() {
               <p className="text-white/40 mb-4 text-sm">Follow my journey</p>
               <div className="flex gap-4">
                 <a href="https://instagram.com/iamt4hir9" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/60 transition-colors"><Instagram /></a>
-                <a href="https://twitter.com/iamt4hir9" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/60 transition-colors"><Twitter /></a>
+                <a href="https://linkedin.com/in/iamt4hir9" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/60 transition-colors"><Linkedin /></a>
               </div>
             </div>
           </motion.div>

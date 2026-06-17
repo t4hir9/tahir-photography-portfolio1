@@ -1,4 +1,4 @@
-import { Instagram, Twitter, Mail, MapPin } from "lucide-react";
+import { Instagram, Linkedin, Mail, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
@@ -24,12 +24,12 @@ export function Footer() {
               <Instagram className="w-5 h-5" />
             </a>
             <a 
-              href="https://twitter.com/iamt4hir9" 
+              href="https://linkedin.com/in/iamt4hir9" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-full"
             >
-              <Twitter className="w-5 h-5" />
+              <Linkedin className="w-5 h-5" />
             </a>
             <a 
               href="mailto:abdultahir779@gmail.com"
