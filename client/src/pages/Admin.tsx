@@ -1,8 +1,41 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
 import { useAdminPortfolio, useDeletePortfolioItem } from "@/hooks/use-portfolio";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Trash2, Upload, LogOut, Image, Film, X } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { PHOTO_FILENAMES, VIDEO_FILENAMES } from "@/lib/media-list";
+
+const GITHUB_BASE =
+  "https://raw.githubusercontent.com/t4hir9/tahir-photography-portfolio1/main/client/public";
+
+function titleFromFilename(filename: string): string {
+  return filename
+    .replace(/\.[^.]+$/, "")
+    .replace(/[_-]+/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .trim();
+}
+
+const FALLBACK_ITEMS = [
+  ...PHOTO_FILENAMES.map((f, i) => ({
+    id: -(i + 1),
+    title: titleFromFilename(f),
+    type: "photo" as const,
+    url: `${GITHUB_BASE}/photos/${f}`,
+    thumbnailUrl: `${GITHUB_BASE}/photos/${f}`,
+    category: "Photography",
+    isStatic: true,
+  })),
+  ...VIDEO_FILENAMES.map((f, i) => ({
+    id: -(PHOTO_FILENAMES.length + i + 1),
+    title: titleFromFilename(f),
+    type: "video" as const,
+    url: `${GITHUB_BASE}/videos/${f}`,
+    thumbnailUrl: PHOTO_FILENAMES[0] ? `${GITHUB_BASE}/photos/${PHOTO_FILENAMES[0]}` : "",
+    category: "Videography",
+    isStatic: true,
+  })),
+];
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -216,6 +249,7 @@ function MediaCard({
 }) {
   const thumb = item.thumbnailUrl ?? item.thumbnail_url ?? item.url;
   const isVideo = item.type === "video";
+  const isStatic = item.isStatic === true;
 
   return (
     <div className="relative group bg-white/5 border border-white/10 overflow-hidden">
@@ -239,16 +273,23 @@ function MediaCard({
           />
         )}
       </div>
-      <div className="p-2">
-        <p className="text-white/70 text-xs truncate">{item.title}</p>
+      <div className="p-2 flex items-center justify-between gap-1">
+        <p className="text-white/70 text-xs truncate flex-1">{item.title}</p>
+        {isStatic && (
+          <span className="text-white/30 text-[10px] uppercase tracking-widest shrink-0">
+            Built-in
+          </span>
+        )}
       </div>
-      <button
-        onClick={() => onDelete(item.id)}
-        className="absolute top-2 right-2 bg-black/70 text-white/70 hover:text-red-400 p-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
-        title="Delete"
-      >
-        <Trash2 className="w-4 h-4" />
-      </button>
+      {!isStatic && (
+        <button
+          onClick={() => onDelete(item.id)}
+          className="absolute top-2 right-2 bg-black/70 text-white/70 hover:text-red-400 p-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
+          title="Delete"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      )}
     </div>
   );
 }
@@ -263,8 +304,10 @@ export default function Admin() {
   const [filter, setFilter] = useState<"all" | "photo" | "video">("all");
   const { toast } = useToast();
 
-  const { data: items = [], refetch, isLoading } = useAdminPortfolio(password);
+  const { data: dbItems = [], refetch, isLoading } = useAdminPortfolio(password);
   const deleteMutation = useDeletePortfolioItem(password);
+
+  const items = useMemo(() => [...dbItems, ...FALLBACK_ITEMS], [dbItems]);
 
   const handleAuth = (pw: string) => {
     setPassword(pw);
@@ -366,16 +409,17 @@ export default function Admin() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label: "Total Items", value: items.length },
-            { label: "Photos", value: photoCount, icon: Image },
-            { label: "Videos", value: videoCount, icon: Film },
-          ].map(({ label, value, icon: Icon }) => (
+            { label: "Total Assets", value: items.length, sub: `${dbItems.length} uploaded · ${FALLBACK_ITEMS.length} built-in` },
+            { label: "Photos", value: photoCount, icon: Image, sub: `${dbItems.filter(i=>i.type==="photo").length} uploaded · ${FALLBACK_ITEMS.filter(i=>i.type==="photo").length} built-in` },
+            { label: "Videos", value: videoCount, icon: Film, sub: `${dbItems.filter(i=>i.type==="video").length} uploaded · ${FALLBACK_ITEMS.filter(i=>i.type==="video").length} built-in` },
+          ].map(({ label, value, icon: Icon, sub }) => (
             <div key={label} className="bg-white/5 border border-white/10 p-5">
               <div className="flex items-center gap-2 text-white/40 text-xs uppercase tracking-widest mb-2">
                 {Icon && <Icon className="w-4 h-4" />}
                 {label}
               </div>
               <p className="text-3xl font-display font-bold">{value}</p>
+              <p className="text-white/25 text-[10px] mt-1">{sub}</p>
             </div>
           ))}
         </div>
