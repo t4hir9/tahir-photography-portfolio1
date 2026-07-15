@@ -13,11 +13,9 @@ export default function Portfolio() {
   const [location] = useLocation();
   const searchParams = new URLSearchParams(window.location.search);
   const filterParam = searchParams.get('filter');
-  
   const [activeTab, setActiveTab] = useState<'all' | 'photo' | 'video'>(
     (filterParam as 'all' | 'photo' | 'video') || 'all'
   );
-  
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const { data: items, isLoading } = usePortfolio();
 
@@ -39,23 +37,21 @@ export default function Portfolio() {
         path="/portfolio"
       />
       <Navigation />
-      
       <div className="pt-32 pb-12 container mx-auto px-6">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
         >
           <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-6">PORTFOLIO</h1>
-          
           <div className="flex justify-center gap-8">
             {['all', 'photo', 'video'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab as any)}
                 className={`text-sm uppercase tracking-widest pb-2 border-b-2 transition-all ${
-                  activeTab === tab 
-                    ? 'text-white border-white' 
+                  activeTab === tab
+                    ? 'text-white border-white'
                     : 'text-white/40 border-transparent hover:text-white/70'
                 }`}
               >
@@ -103,14 +99,13 @@ export default function Portfolio() {
                   </div>
                 ) : (
                   <div className="relative">
-                    <img 
-                      src={item.url} 
+                    <img
+                      src={item.url}
                       alt=""
                       className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
                 )}
-                
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
                 </div>
               </motion.div>
@@ -118,7 +113,6 @@ export default function Portfolio() {
           </Masonry>
         )}
       </div>
-
       <Footer />
 
       {/* Lightbox / Video Modal */}
@@ -131,13 +125,12 @@ export default function Portfolio() {
             className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4"
             onClick={() => setSelectedItem(null)}
           >
-            <button 
+            <button
               className="absolute top-6 right-6 text-white/50 hover:text-white"
               onClick={() => setSelectedItem(null)}
             >
               <X className="w-8 h-8" />
             </button>
-
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -147,17 +140,19 @@ export default function Portfolio() {
             >
               {selectedItem.type === 'video' ? (
                 <div className="aspect-video w-full bg-black">
-                  <ReactPlayer 
+                  <ReactPlayer
+                    key={selectedItem.id}
                     url={selectedItem.url}
                     width="100%"
                     height="100%"
                     controls
                     playing
+                    onError={(e) => console.error('Video failed to load:', selectedItem.url, e)}
                   />
                 </div>
               ) : (
-                <img 
-                  src={selectedItem.url} 
+                <img
+                  src={selectedItem.url}
                   alt={selectedItem.title}
                   className="w-full h-full max-h-[90vh] object-contain"
                 />
