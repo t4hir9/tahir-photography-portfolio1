@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Girau School Portal",
+    "type": "WEB DEVELOPMENT",
+    "description": "A Django school management portal for student and teacher records, results, and assessment workflows.",
+    "stack": ["Django", "Python", "Education"],
+    "url": ""
+  }
+]
