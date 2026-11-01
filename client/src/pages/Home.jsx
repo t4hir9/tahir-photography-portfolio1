@@ -83,12 +83,12 @@ export default function Home() {
           <div className="discipline-grid">
             {disciplines.map((discipline) => {
               const Icon = discipline.icon;
-              return <Link key={discipline.label} href={discipline.href} className={`discipline-item ${discipline.className}`}>
+              return <a key={discipline.label} href={discipline.href} className={`discipline-item ${discipline.className}`}>
                 <div className="discipline-topline"><span>{discipline.label}</span><Icon size={19} /></div>
                 <h2>{discipline.title}</h2><p>{discipline.description}</p>
                 <span className="discipline-link">{discipline.action} <ArrowRight size={16} /></span>
                 {discipline.className === "creative-track" ? <div className="discipline-photo" style={{ backgroundImage: `url("${GITHUB_BASE}/photos/10.jpg")` }} /> : <div className="code-motif" aria-hidden="true"><span>&lt;build /&gt;</span><span>0101&nbsp; 1100&nbsp; 0011</span><span>{"{ ideas: useful }"}</span></div>}
-              </Link>;
+              </a>;
             })}
           </div>
         </section>

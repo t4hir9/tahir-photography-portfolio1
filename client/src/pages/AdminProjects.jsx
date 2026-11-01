@@ -101,7 +101,7 @@ export default function AdminProjects({ embedded = false }) {
     anchor.href = url;
     anchor.download = "tech-projects.json";
     anchor.click();
-    URL.revokeObjectURL(url);
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
     setNotice("Downloaded. Replace client/public/tech-projects.json with this file, then redeploy to publish it for everyone.");
   }
 

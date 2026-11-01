@@ -257,6 +257,8 @@
   .footer-bottom { align-items: flex-start; }
   .footer-links { width: 100%; justify-content: space-between; }
 }
+
+.route-loading { min-height: 60vh; display: grid; place-items: center; color: var(--muted, #a7b3aa); font: 11px var(--font-mono, monospace); letter-spacing: .14em; text-transform: uppercase; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }

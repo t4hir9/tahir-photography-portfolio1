@@ -9,15 +9,37 @@ import { SEO } from "@/components/SEO";
 
 const ASSET_ROOT = "https://raw.githubusercontent.com/t4hir9/tahir-photography-portfolio1/main/client/public";
 const fallbackManifest = {
-  photos: ["1.jpg", "10.jpg", ...Array.from({ length: 65 }, (_, index) => `${index + 1}.jpg`)],
+  photos: Array.from({ length: 65 }, (_, index) => `${index + 1}.jpg`),
   videos: ["FTS.MP4", "Outfit_3_Redo.mp4", "Outfit_4.mp4", "Reel.MP4", "Rubix.MP4", "Scribble.MP4", "Walima_Second.mp4", "beeh final.mp4", "culverin.MP4", "gold final.mp4", "gold2.mp4", "guards vid.mp4", "pastry reels - HD 1080p.mp4", "reel_5.mp4", "shanty main.mp4", "titan.MP4"],
 };
 const titleFromFilename = (filename) => filename.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ").replace(/\b\w/g, (character) => character.toUpperCase());
 const assetUrl = (type, name) => `${ASSET_ROOT}/${type}/${encodeURIComponent(name)}`;
 
 function VideoCard({ item, orientation, onOrientation, onOpen }) {
+  const videoRef = useRef(null);
+  const [nearViewport, setNearViewport] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (!("IntersectionObserver" in window)) {
+      setNearViewport(true);
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => setNearViewport(entry.isIntersecting), { rootMargin: "220px" });
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (nearViewport) video.play().catch(() => {});
+    else video.pause();
+  }, [nearViewport]);
+
   return <button className={`video-tile video-${orientation}`} onClick={() => onOpen(item)} aria-label={`Play ${item.title}`}>
-    <video src={item.url} poster={`${ASSET_ROOT}/photos/1.jpg`} autoPlay loop muted playsInline preload="auto" onLoadedMetadata={(event) => onOrientation(item.id, event.currentTarget.videoWidth >= event.currentTarget.videoHeight ? "horizontal" : "vertical")} onError={() => onOrientation(item.id, "unavailable")} />
+    <video ref={videoRef} src={item.url} poster={`${ASSET_ROOT}/photos/1.jpg`} autoPlay={nearViewport} loop muted playsInline preload={nearViewport ? "auto" : "none"} onLoadedMetadata={(event) => onOrientation(item.id, event.currentTarget.videoWidth >= event.currentTarget.videoHeight ? "horizontal" : "vertical")} onError={() => onOrientation(item.id, "unavailable")} />
     <span className="video-play-mark"><Play size={17} fill="currentColor" /></span>
     <span className="video-tile-caption"><span>{item.title}</span><small>{orientation === "vertical" ? "9:16 / PORTRAIT" : "16:9 / LANDSCAPE"}</small></span>
   </button>;
@@ -47,9 +69,10 @@ function ExpandedVideo({ item }) {
 export default function Portfolio() {
   const [manifest, setManifest] = useState(fallbackManifest);
   const requestedFilter = new URLSearchParams(window.location.search).get("filter");
-  const [activeTab, setActiveTab] = useState(requestedFilter === "photography" ? "photo" : requestedFilter === "videography" ? "vertical" : requestedFilter === "video" ? "vertical" : "all");
+  const [activeTab, setActiveTab] = useState(requestedFilter === "photo" || requestedFilter === "photography" ? "photo" : requestedFilter === "videography" || requestedFilter === "video" ? "vertical" : "all");
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [orientations, setOrientations] = useState({});
+  const [videoDetectionEnabled, setVideoDetectionEnabled] = useState(false);
   const lightboxCloseRef = useRef(null);
 
   useEffect(() => {
@@ -57,6 +80,24 @@ export default function Portfolio() {
       if (data?.photos?.length || data?.videos?.length) setManifest({ photos: data.photos || [], videos: data.videos || [] });
     }).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (videoDetectionEnabled || activeTab === "photo") return;
+    const sections = document.querySelectorAll(".video-section");
+    if (!sections.length) return;
+    if (!("IntersectionObserver" in window)) {
+      setVideoDetectionEnabled(true);
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        setVideoDetectionEnabled(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: "280px" });
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [activeTab, videoDetectionEnabled]);
 
   const photos = useMemo(() => manifest.photos.map((filename, index) => ({ id: `photo-${index}`, title: titleFromFilename(filename), type: "photo", url: assetUrl("photos", filename) })), [manifest.photos]);
   const videos = useMemo(() => manifest.videos.map((filename, index) => ({ id: `video-${index}`, title: titleFromFilename(filename), type: "video", url: assetUrl("videos", filename) })), [manifest.videos]);
@@ -101,13 +142,13 @@ export default function Portfolio() {
       <section className="gallery-heading"><div><p className="eyebrow"><span className="availability-dot" /> 4T9 MEDIA / SELECTED WORK</p><h1>Made to be<br /><em>seen.</em></h1></div><p>A living archive of images and moving stories, made for people, places, and brands with something to say.</p></section>
       <nav className="gallery-tabs" aria-label="Portfolio categories">{[["all", "Everything"], ["photo", "Photography"], ["vertical", "Vertical film"], ["horizontal", "Landscape film"]].map(([key, label]) => <button key={key} className={activeTab === key ? "gallery-tab is-active" : "gallery-tab"} onClick={() => setActiveTab(key)}>{label}<span>{key === "photo" ? photos.length : key === "vertical" ? verticalVideos.length : key === "horizontal" ? horizontalVideos.length : photos.length + videos.length}</span></button>)}</nav>
 
-      {(activeTab === "all" || activeTab === "photo") && <section className="gallery-section" aria-labelledby="photos-title"><div className="gallery-section-heading"><div><p className="section-label"><span>01</span> STILL IMAGES</p><h2 id="photos-title">Photography</h2></div><p>Tap any frame to open it full screen.</p></div><div className="photo-grid">{photos.map((item, index) => <button className={`photo-tile photo-tile-${index % 7}`} key={item.id} onClick={() => openItem(item, "photo")} aria-label={`Expand photograph ${index + 1}`}><img src={item.url} alt={`Photograph ${index + 1} in Tahir Adamu's portfolio`} loading={index < 8 ? "eager" : "lazy"} /><span className="photo-expand"><Expand size={18} /></span></button>)}</div></section>}
+      {(activeTab === "all" || activeTab === "photo") && <section className="gallery-section" aria-labelledby="photos-title"><div className="gallery-section-heading"><div><p className="section-label"><span>01</span> STILL IMAGES</p><h2 id="photos-title">Photography</h2></div><p>Tap any frame to open it full screen.</p></div><div className="photo-grid">{photos.map((item, index) => <button className={`photo-tile photo-tile-${index % 7}`} key={item.id} onClick={() => openItem(item, "photo")} aria-label={`Expand photograph ${index + 1}`}><img src={item.url} alt={`Photograph ${index + 1} in Tahir Adamu's portfolio`} loading={index < 4 ? "eager" : "lazy"} /><span className="photo-expand"><Expand size={18} /></span></button>)}</div></section>}
 
       {(activeTab === "all" || activeTab === "vertical") && <section className="gallery-section video-section" aria-labelledby="vertical-title"><div className="gallery-section-heading"><div><p className="section-label"><span>02</span> PORTRAIT FORMAT</p><h2 id="vertical-title">Vertical films</h2></div><p>Portrait-oriented stories for the small screen.</p></div><div className="video-grid video-grid-vertical">{verticalVideos.map((item) => <VideoCard key={item.id} item={item} orientation="vertical" onOrientation={setOrientation} onOpen={(selected) => openItem(selected, "vertical")} />)}</div>{verticalVideos.length === 0 && <p className="gallery-empty"><LoaderCircle size={16} /> Detecting video formats…</p>}</section>}
 
       {(activeTab === "all" || activeTab === "horizontal") && <section className="gallery-section video-section" aria-labelledby="horizontal-title"><div className="gallery-section-heading"><div><p className="section-label"><span>03</span> LANDSCAPE FORMAT</p><h2 id="horizontal-title">Landscape films</h2></div><p>Wide-frame commercial and documentary work.</p></div><div className="video-grid video-grid-horizontal">{horizontalVideos.map((item) => <VideoCard key={item.id} item={item} orientation="horizontal" onOrientation={setOrientation} onOpen={(selected) => openItem(selected, "horizontal")} />)}</div>{horizontalVideos.length === 0 && <p className="gallery-empty"><LoaderCircle size={16} /> Detecting video formats…</p>}</section>}
     </main>
-    <div className="video-metadata-probes" aria-hidden="true">{videos.filter((item) => !orientations[item.id]).map((item) => <video key={item.id} src={item.url} preload="metadata" muted playsInline onLoadedMetadata={(event) => setOrientation(item.id, event.currentTarget.videoWidth >= event.currentTarget.videoHeight ? "horizontal" : "vertical")} onError={() => setOrientation(item.id, "unavailable")} />)}</div>
+    {videoDetectionEnabled && activeTab !== "photo" && <div className="video-metadata-probes" aria-hidden="true">{videos.filter((item) => !orientations[item.id]).map((item) => <video key={item.id} src={item.url} preload="metadata" muted playsInline onLoadedMetadata={(event) => setOrientation(item.id, event.currentTarget.videoWidth >= event.currentTarget.videoHeight ? "horizontal" : "vertical")} onError={() => setOrientation(item.id, "unavailable")} />)}</div>}
     <Footer />
     <AnimatePresence>{selectedItem && <motion.div className="lightbox" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedIndex(-1)} role="dialog" aria-modal="true" aria-label={selectedItem.title}>
       <button ref={lightboxCloseRef} className="lightbox-close" onClick={() => setSelectedIndex(-1)} aria-label="Close preview"><X size={22} /></button>
