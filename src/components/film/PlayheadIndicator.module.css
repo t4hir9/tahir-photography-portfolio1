@@ -1,0 +1,40 @@
+.playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+  left: calc(var(--progress) - 1px);
+  transition: left 0.05s linear;
+}
+
+.triangle {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid var(--accent);
+  filter: drop-shadow(0 2px 4px rgba(230, 57, 70, 0.4));
+}
+
+.line {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: calc(100% - 6px);
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .playhead {
+    transition: none;
+  }
+}

@@ -1,0 +1,111 @@
+.clipThumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-layer-1);
+  cursor: crosshair;
+  isolation: isolate;
+}
+
+.beforeLayer,
+.afterLayer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.beforeLayer img,
+.afterLayer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.clipThumb:hover .beforeLayer img,
+.clipThumb:hover .afterLayer img {
+  transform: scale(1.02);
+}
+
+/* Before layer - full width, clipped by after layer's clip-path */
+.beforeLayer {
+  z-index: 1;
+}
+
+/* After layer - revealed progressively from left */
+.afterLayer {
+  z-index: 2;
+  clip-path: inset(0 calc(100% - var(--split)) 0 0);
+}
+
+/* Grade labels */
+.gradeLabel {
+  position: absolute;
+  bottom: var(--space-sm);
+  left: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-paper);
+  background: rgba(10, 10, 10, 0.7);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 4px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.afterLayer .gradeLabel {
+  left: auto;
+  right: var(--space-sm);
+}
+
+/* Center divider */
+.divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent);
+  z-index: 4;
+  pointer-events: none;
+  transition: left 0.05s linear;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  border: 2px solid var(--color-void);
+  border-radius: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.divider::before {
+  top: var(--space-md);
+}
+
+.divider::after {
+  bottom: var(--space-md);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .beforeLayer img,
+  .afterLayer img {
+    transition: none;
+  }
+
+  .divider {
+    transition: none;
+  }
+}
