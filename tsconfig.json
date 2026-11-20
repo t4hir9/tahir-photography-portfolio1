@@ -24,6 +24,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@/tip08-motion-graphics/*": [
+        "/Users/macbook/tip08-motion-graphics/src/*"
       ]
     },
     "baseUrl": ".",

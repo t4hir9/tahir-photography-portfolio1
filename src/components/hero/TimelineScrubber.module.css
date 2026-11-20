@@ -1,0 +1,177 @@
+.scrubberContainer {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.scrubberInput {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.scrubberInput:focus {
+  outline: none;
+}
+
+.scrubberInput:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.scrubberInput::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--color-paper);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.scrubberInput::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 16px rgba(230, 57, 70, 0.4);
+}
+
+.scrubberInput::-webkit-slider-thumb:active {
+  transform: scale(1.3);
+}
+
+.scrubberInput::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--color-paper);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.scrubberInput::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 16px rgba(230, 57, 70, 0.4);
+}
+
+.scrubberInput::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  border: none;
+}
+
+.track {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 4px;
+  background: var(--border-subtle);
+  border-radius: 2px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.trackFilled {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.05s linear;
+}
+
+.playhead {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 32px;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.8;
+}
+
+.playhead::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--color-void);
+  box-shadow: 0 0 0 2px var(--color-paper);
+}
+
+/* Reduced motion: hide playhead animation, simplify interactions */
+@media (prefers-reduced-motion: reduce) {
+  .playhead {
+    display: none;
+  }
+
+  .trackFilled {
+    transition: none;
+  }
+
+  .scrubberInput::-webkit-slider-thumb {
+    transition: none;
+  }
+
+  .scrubberInput::-moz-range-thumb {
+    transition: none;
+  }
+}
+
+/* Class-based reduced motion for testing and JS control */
+.scrubberContainer.reducedMotion .playhead {
+  display: none;
+}
+
+.scrubberContainer.reducedMotion .trackFilled {
+  transition: none;
+}
+
+.scrubberContainer.reducedMotion .scrubberInput::-webkit-slider-thumb {
+  transition: none;
+}
+
+.scrubberContainer.reducedMotion .scrubberInput::-moz-range-thumb {
+  transition: none;
+}
+
+/* Disabled state */
+.scrubberInput:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.scrubberInput:disabled::-webkit-slider-thumb {
+  cursor: not-allowed;
+  background: var(--color-muted);
+}
+
+.scrubberInput:disabled::-moz-range-thumb {
+  cursor: not-allowed;
+  background: var(--color-muted);
+}
+
+.scrubberContainer:has(.scrubberInput:disabled) .trackFilled {
+  background: var(--color-muted);
+}
