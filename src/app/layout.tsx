@@ -2,16 +2,14 @@ import type { Metadata, Viewport } from "next";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Portfolio of work across film and technology",
-  viewport: "width=device-width, initial-scale=1",
-  themeColor: "#0A0A0A",
+  title: "4T9 — Filmmaker & Creative Technologist",
+  description: "Portfolio showcasing filmmaking (DaVinci Resolve, color grading) and tech (Remotion, React, creative coding) work.",
 };
 
 export const viewport: Viewport = {
+  themeColor: "#0A0A0A",
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0A0A0A",
 };
 
 export default function RootLayout({
@@ -20,14 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased">
-        {children}
-      </body>
+    <html lang="en">
+      <body>{children}</body>
     </html>
   );
 }
