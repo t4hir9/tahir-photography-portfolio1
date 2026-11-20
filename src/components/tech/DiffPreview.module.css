@@ -1,0 +1,124 @@
+.container {
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-overlay);
+  overflow: hidden;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.toggle:hover {
+  color: var(--accent);
+  background: rgba(230, 57, 70, 0.05);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+.toggleIcon {
+  display: inline-block;
+  transition: transform 0.15s ease;
+  font-size: 0.7rem;
+}
+
+.content {
+  padding: 0 var(--space-md) var(--space-md);
+  animation: slideDown 0.2s ease;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.file {
+  margin-bottom: var(--space-md);
+}
+
+.file:last-child {
+  margin-bottom: 0;
+}
+
+.fileHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--bg-elevated);
+  border-radius: 4px 4px 0 0;
+  border: 1px solid var(--border-subtle);
+  border-bottom: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+}
+
+.fileIcon {
+  font-size: 0.9rem;
+}
+
+.filePath {
+  color: var(--text-primary);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.diff {
+  margin: 0;
+  padding: var(--space-sm);
+  background: var(--color-void);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0 0 4px 4px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  color: var(--color-paper);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.diff code {
+  color: inherit;
+}
+
+/* Diff syntax highlighting (basic) */
+.diff code .add { color: #4ade80; }
+.diff code .remove { color: #f87171; }
+.diff code .context { color: var(--text-secondary); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .content {
+    animation: none;
+  }
+
+  .toggleIcon {
+    transition: none;
+  }
+}
