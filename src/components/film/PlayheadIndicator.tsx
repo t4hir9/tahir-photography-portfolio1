@@ -15,7 +15,6 @@ export function PlayheadIndicator({ progress = 0, className = "" }: PlayheadIndi
       aria-valuemax={100}
       aria-valuenow={Math.round(position)}
       style={{ "--progress": `${position}%` } as React.CSSProperties}
-      aria-hidden="true"
       data-testid="playhead"
     >
       <div className={styles.triangle} aria-hidden="true" />

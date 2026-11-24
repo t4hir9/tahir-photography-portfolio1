@@ -1,13 +1,17 @@
-import { Hero } from "@/components/hero";
-import { FilmSection } from "@/components/film";
-import { TechSection } from "@/components/tech";
+import { HeroV2 } from "@/components/hero-v2/HeroV2";
+import { UnifiedGrid } from "@/components/hero-v2/UnifiedGrid";
+import { AboutSection } from "@/components/about/AboutSection";
+import { Footer } from "@/components/about/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      <Hero />
-      <FilmSection />
-      <TechSection />
-    </main>
+    <>
+      <main className="min-h-screen">
+        <HeroV2 />
+        <UnifiedGrid />
+        <AboutSection />
+      </main>
+      <Footer />
+    </>
   );
 }

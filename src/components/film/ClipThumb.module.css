@@ -5,7 +5,7 @@
   border-radius: 8px;
   overflow: hidden;
   background: var(--color-layer-1);
-  cursor: crosshair;
+  cursor: zoom-in;
   isolation: isolate;
 }
 
@@ -98,6 +98,117 @@
   bottom: var(--space-md);
 }
 
+/* Click hint */
+.clickHint {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  background: rgba(10, 10, 10, 0.8);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 4px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.clipThumb:hover .clickHint,
+.clipThumb:focus-visible .clickHint {
+  opacity: 1;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-lg);
+  animation: fadeIn 0.2s var(--ease-out);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: slideUp 0.3s var(--ease-spring);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalImage {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.modalCaption {
+  margin-top: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.closeButton {
+  position: absolute;
+  top: calc(-1 * var(--space-xl));
+  right: 0;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--color-layer-2);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.closeButton:hover {
+  background: var(--accent);
+  transform: scale(1.1);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .beforeLayer img,
@@ -107,5 +218,40 @@
 
   .divider {
     transition: none;
+  }
+
+  .clickHint {
+    transition: none;
+  }
+
+  .modal {
+    animation: none;
+  }
+
+  .modalContent {
+    animation: none;
+  }
+
+  .closeButton {
+    transition: none;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .modal {
+    padding: var(--space-md);
+  }
+
+  .closeButton {
+    top: calc(-1 * var(--space-lg));
+    right: calc(-1 * var(--space-xs));
+    width: 40px;
+    height: 40px;
+  }
+
+  .clickHint {
+    opacity: 1;
+    font-size: var(--text-xs);
   }
 }
